@@ -1,6 +1,5 @@
-import { IUser } from "@/types/User"
 import z from "zod"
-export const CreateUserInput: z.ZodType<IUser> = z.object({
+const schema = z.object({
   auth0Id: z.string(),
   email: z.string().email(),
   city: z.string().optional(),
@@ -8,7 +7,13 @@ export const CreateUserInput: z.ZodType<IUser> = z.object({
   country: z.string().optional(),
   addressLine1: z.string().optional()
 })
-export type CreateUserBody = z.infer<typeof CreateUserInput>
+
+export const UserInputCreate = schema
+export const UserInputUpdate = schema.omit({ email: true, auth0Id: true })
+
+export type CreateUserBody = z.infer<typeof UserInputCreate>
+
+export type UpdateUserBody = z.infer<typeof UserInputUpdate>
 
 
 
