@@ -22,7 +22,13 @@ const createUser = async (req: Request, res: Response) => {
   }
 }
 const getUserInfo = async (req: Request, res: Response) => {
-
+  Logger.info("Get authenticated user information.")
+  const user = await User.findOne({ _id: req.userId })
+  if (!user) {
+    Logger.warn("Authenticated user not found.")
+    return res.status(StatusCodes.NOT_FOUND).json({ error: "User not found." })
+  }
+  return res.json({ user: user.toJSON({ minimize: false }) })
 }
 const updateCurrentUser = async (req: Request, res: Response) => {
   try {
@@ -32,7 +38,7 @@ const updateCurrentUser = async (req: Request, res: Response) => {
       res.status(StatusCodes.NOT_FOUND).json({ error: "User not found." })
       return
     }
-    const updatedUser = await User.findOneAndUpdate({ auth0Id: req.userId }, body)
+    const updatedUser = await User.findOneAndUpdate({ _id: req.userId }, body)
     res.status(StatusCodes.OK).json({ data: updatedUser })
   } catch (error) {
     Logger.error(error)
