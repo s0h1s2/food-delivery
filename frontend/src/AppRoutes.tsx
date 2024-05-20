@@ -10,7 +10,7 @@ export const AppRoutes = () => {
 
       <Route path={ROUTES.HOME} element={<Layout> <HomePage /> </Layout>} />
       <Route path={ROUTES.AUTH_CALLBACK} element={<AuthCallbackPage />} />
-      <Route path={ROUTES.USER_PROFILE} element={<UserProfilePage />} />
+      <Route path={ROUTES.USER_PROFILE} element={<Layout showHero={false}><UserProfilePage /></Layout>} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   )

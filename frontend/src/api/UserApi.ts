@@ -1,3 +1,4 @@
+import { UserProfileFormData } from "@/forms/user-profile-forms/validation"
 import client from "@/lib/client"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useMutation } from "react-query"
@@ -10,12 +11,7 @@ export const useCreateUser = () => {
   const { getAccessTokenSilently } = useAuth0()
 
   const createUserRequest = async (user: CreateUserRequest) => {
-    const accessToken = await getAccessTokenSilently()
-    return client.post("/users/", user, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    })
+    return client.post("/users/", user)
   }
   const { mutateAsync: createUser, isLoading, isSuccess, isError } = useMutation(createUserRequest)
   return {
@@ -24,4 +20,11 @@ export const useCreateUser = () => {
     isSuccess,
     isError
   }
+}
+export const useUpdateUser = () => {
+  const updateUserRequest = (formData: UserProfileFormData) => {
+    return client.put("/users", formData)
+  }
+  const { mutateAsync: updateUser, isLoading, isSuccess, isError, error, reset } = useMutation(updateUserRequest)
+  return { updateUser, isLoading, isSuccess, isError, error, reset }
 }
