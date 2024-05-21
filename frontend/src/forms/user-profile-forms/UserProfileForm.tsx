@@ -5,17 +5,29 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import LoadingButton from "@/components/LoadingButton";
 import { Button } from "@/components/ui/button";
+import { UserCog } from "lucide-react";
+import { UserInfoResponse } from "@/types/user";
+import { useEffect } from "react";
 interface Props {
   onSave: (data: UserProfileFormData) => void
   isLoading: boolean
+  currentUser?: UserInfoResponse
 }
-export const UserProfileForm = ({ onSave, isLoading }: Props) => {
-  const form = useForm<UserProfileFormData>({ resolver: yupResolver(schema) });
+export const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
+  const form = useForm<UserProfileFormData>({ resolver: yupResolver(schema), defaultValues: currentUser });
+  useEffect(() => {
+    form.reset(currentUser)
+  }, [currentUser, form])
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSave)} className="space-y-4 bg-gray-50 rounded-lg md:p-10">
+      <form onSubmit={form.handleSubmit(onSave)} className="space-y-4 bg-gray-50 rounded-lg p-4 md:p-10">
         <div>
-          <h2 className="text-2xl font-bold">User Profile Form</h2>
+          <h2 className="text-2xl font-bold">
+            <div className="flex flex-row gap-2">
+              <UserCog />
+              User Profile Form
+            </div>
+          </h2>
           <FormDescription>
             View and change your profile information here
           </FormDescription>
@@ -64,7 +76,7 @@ export const UserProfileForm = ({ onSave, isLoading }: Props) => {
               <FormMessage />
             </FormItem>)} />
         </div>
-        {isLoading ? <LoadingButton /> : <Button type="submit" className="bg-orange-500">Update</Button>}
+        {isLoading ? <LoadingButton /> : <Button type="submit" className="bg-orange-500">Update Profile</Button>}
       </form>
     </Form>
   );

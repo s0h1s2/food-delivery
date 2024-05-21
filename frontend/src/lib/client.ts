@@ -6,4 +6,12 @@ const client = axios.create({
   },
   withCredentials: true
 });
+
+export const addAccessTokenInterceptor = (getAccessToken: any) => {
+  client.interceptors.request.use(async (config) => {
+    const token = await getAccessToken()
+    config.headers.Authorization = `Bearer ${token}`
+    return config
+  })
+}
 export default client

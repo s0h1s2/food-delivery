@@ -4,7 +4,15 @@ import Layout from './layouts/Layout'
 import HomePage from './pages/HomePage'
 import AuthCallbackPage from "./pages/AuthCallbackPage"
 import UserProfilePage from './pages/UserProfilePage'
+import { useEffect } from 'react'
+import { useAuth0 } from '@auth0/auth0-react'
+import { addAccessTokenInterceptor } from './lib/client'
 export const AppRoutes = () => {
+  const { getAccessTokenSilently } = useAuth0()
+  useEffect(() => {
+    console.log("HERE?")
+    addAccessTokenInterceptor(getAccessTokenSilently)
+  }, [getAccessTokenSilently])
   return (
     <Routes>
 

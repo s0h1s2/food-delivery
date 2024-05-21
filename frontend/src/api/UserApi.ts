@@ -1,15 +1,15 @@
 import { UserProfileFormData } from "@/forms/user-profile-forms/validation"
 import client from "@/lib/client"
-import { useAuth0 } from "@auth0/auth0-react"
-import { useMutation } from "react-query"
+import { UserInfoResponse } from "@/types/user"
+import { useMutation, useQuery } from "react-query"
+import { toast } from "sonner"
 
 type CreateUserRequest = {
   auth0Id: string
   email: string
 }
-export const useCreateUser = () => {
-  const { getAccessTokenSilently } = useAuth0()
 
+export const useCreateUser = () => {
   const createUserRequest = async (user: CreateUserRequest) => {
     return client.post("/users/", user)
   }
@@ -20,6 +20,17 @@ export const useCreateUser = () => {
     isSuccess,
     isError
   }
+}
+export const useGetMyUser = () => {
+  const getUserInfoRequest = async (): Promise<UserInfoResponse> => {
+    const response = await client.get("/users/me")
+    return response.data.user
+  }
+  const { data: currentUser, isLoading, error } = useQuery<UserInfoResponse>("fetchCurrentUser", getUserInfoRequest)
+  if (error) {
+    toast.error(error.toString())
+  }
+  return { currentUser, isLoading, error }
 }
 export const useUpdateUser = () => {
   const updateUserRequest = (formData: UserProfileFormData) => {
