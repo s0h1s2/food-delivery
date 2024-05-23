@@ -6,14 +6,11 @@ import { Input } from "@/components/ui/input";
 import LoadingButton from "@/components/LoadingButton";
 import { Button } from "@/components/ui/button";
 import { UserCog } from "lucide-react";
-import { UserInfoResponse } from "@/types/user";
 import { useEffect } from "react";
-interface Props {
-  onSave: (data: UserProfileFormData) => void
-  isLoading: boolean
-  currentUser?: UserInfoResponse
-}
-export const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
+import { FormProps } from "@/types/form";
+
+
+export const UserProfileForm = ({ onSave, isLoading, currentUser }: FormProps<UserProfileFormData>) => {
   const form = useForm<UserProfileFormData>({ resolver: yupResolver(schema), defaultValues: currentUser });
   useEffect(() => {
     form.reset(currentUser)

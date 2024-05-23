@@ -5,6 +5,7 @@ import logger from "./util/Logger"
 import mongoose from "mongoose"
 import morgan from "morgan"
 import routes from "./routes/v1/routes"
+import { v2 as cloudinary } from "cloudinary"
 
 declare global {
   namespace Express {
@@ -16,7 +17,11 @@ declare global {
 }
 
 mongoose.connect(process.env.MONGODB_CONNECTION as string).then(() => logger.info("Connected to database.")).catch((e) => logger.error("Unable to connect to database: " + e))
-
+cloudinary.config({
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cname: process.env.CLOUDINARY_CLOUD_NAME
+})
 
 const app = express()
 

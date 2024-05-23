@@ -1,4 +1,5 @@
 import { useGetMyUser, useUpdateUser } from "@/api/UserApi"
+import LoadingSpinner from "@/components/LoadingSpinner"
 import { UserProfileForm } from "@/forms/user-profile-forms/UserProfileForm"
 import { UserProfileFormData } from "@/forms/user-profile-forms/validation"
 
@@ -9,9 +10,8 @@ const UserProfilePage = () => {
     await updateUser(formData)
   }
   if (isUserLoading) {
-    return <span>Loading...</span>
+    return <LoadingSpinner />
   }
-
   return (
     <UserProfileForm currentUser={currentUser} onSave={handleUpdateUser} isLoading={isLoading} />
   )
