@@ -3,7 +3,7 @@ import { ROUTES } from "@/constants"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
-
+import LoadingSpinner from "@/components/LoadingSpinner"
 const AuthCallbackPage = () => {
   const navigate = useNavigate()
   const hasUserCreated = useRef(false)
@@ -18,7 +18,7 @@ const AuthCallbackPage = () => {
   }, [hasUserCreated, navigate, user])
 
   return (
-    <div>Loading...</div>
+    <LoadingSpinner />
   )
 }
 

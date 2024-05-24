@@ -1,4 +1,5 @@
 import { InferType, object, string, number, array } from "yup"
+
 export const schema = object({
   resturantName: string().required(),
   city: string().required(),

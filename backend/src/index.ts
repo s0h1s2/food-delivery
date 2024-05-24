@@ -20,12 +20,13 @@ mongoose.connect(process.env.MONGODB_CONNECTION as string).then(() => logger.inf
 cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
-  cname: process.env.CLOUDINARY_CLOUD_NAME
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME
 })
 
 const app = express()
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(cors({ credentials: true, origin: "http://localhost:5173" }))
 app.use(morgan("tiny"))
 app.use("/api/v1", routes)

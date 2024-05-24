@@ -7,7 +7,7 @@ export interface IResturant {
   city: string
   country: string
   deliveryPrice: number
-  estimatedDeliveryPrice: number
+  estimatedDeliveryTime: number
   cuisines: string[]
   menuItems: IMenuItem[]
   imageUrl: string

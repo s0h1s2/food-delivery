@@ -15,7 +15,7 @@ const resturantSchema = new mongoose.Schema<IResturant>({
   lastUpdated: { type: Date, required: true },
   menuItems: [menuItemSchema],
   deliveryPrice: { type: Number, required: true },
-  estimatedDeliveryPrice: { type: Number, required: true }
+  estimatedDeliveryTime: { type: Number, required: true }
 
 })
 export const Resturant = mongoose.model("Resturant", resturantSchema)
