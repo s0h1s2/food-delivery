@@ -16,10 +16,16 @@ const UserMenu = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem>
+          <Link className="font-bold hover:text-orange-500" to={ROUTES.MANAGE_USER_RESTURANT}>
+            Manage Resturant
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
           <Link className="font-bold hover:text-orange-500" to={ROUTES.USER_PROFILE}>
             User Profile
           </Link>
         </DropdownMenuItem>
+
         <DropdownMenuItem>
           <Link to="/">
           </Link>
@@ -28,6 +34,7 @@ const UserMenu = () => {
         <DropdownMenuItem>
           <Button onClick={() => logout()} className="flex flex-1 font-bold bg-orange-500">Logout</Button>
         </DropdownMenuItem>
+
       </DropdownMenuContent>
     </DropdownMenu>
   )

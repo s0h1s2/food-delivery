@@ -1,6 +1,6 @@
-import { InferType, object, string, number, array } from "yup"
+import { InferType, object, string, number, array, mixed } from "yup"
 
-export const schema = object({
+export const manageResturantFormSchema = object({
   resturantName: string().required(),
   city: string().required(),
   country: string().required(),
@@ -10,9 +10,10 @@ export const schema = object({
   menuItems: array().of(object().shape({
     name: string().required(),
     price: number().required()
-  })).compact((v) => !v.checked)
+  })).compact((v) => !v.checked),
 
+  imageFile: mixed().required("Image is required")
 
 })
 
-export type ManageResturantFormData = InferType<typeof schema>
+export type ManageResturantFormData = InferType<typeof manageResturantFormSchema>
