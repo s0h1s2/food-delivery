@@ -11,7 +11,6 @@ import ManageResturantPage from './pages/ManageResturantPage'
 export const AppRoutes = () => {
   const { getAccessTokenSilently } = useAuth0()
   useEffect(() => {
-    console.log("HERE?")
     addAccessTokenInterceptor(getAccessTokenSilently)
   }, [getAccessTokenSilently])
   return (
