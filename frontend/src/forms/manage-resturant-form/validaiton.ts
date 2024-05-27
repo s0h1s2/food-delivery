@@ -8,9 +8,9 @@ export const manageResturantFormSchema = object({
   estimatedDeliveryTime: number().required(),
   cuisines: array(string()).min(1).required(),
   menuItems: array().of(object().shape({
-    name: string().required(),
-    price: number().required()
-  })).compact((v) => !v.checked),
+    name: string().required("is required"),
+    price: number().required("is required").typeError("Must be a number")
+  })),
   imageFile: mixed().required("Image is required")
 })
 
