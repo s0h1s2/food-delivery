@@ -11,6 +11,7 @@ export const validateSchema = (schema: z.ZodType) => {
     } catch (error) {
       if (error instanceof ZodError) {
         Logger.error("Validation failed.")
+        Logger.error(error)
         res.status(StatusCodes.BAD_REQUEST).json({ error: error })
       } else {
         Logger.error(error)

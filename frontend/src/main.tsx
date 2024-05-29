@@ -3,8 +3,11 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { AppRoutes } from './AppRoutes.tsx'
 import { QueryClient, QueryClientProvider } from "react-query"
-import "./global.css"
+import { ToastContainer } from "react-toastify"
 import AuthProviderWithNavigate from './auth/AuthProviderWithNavigate.tsx'
+// CSS
+import "./global.css"
+import 'react-toastify/dist/ReactToastify.css';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -18,6 +21,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <QueryClientProvider client={queryClient}>
         <AuthProviderWithNavigate>
           <AppRoutes />
+          <ToastContainer />
         </AuthProviderWithNavigate>
       </QueryClientProvider >
     </BrowserRouter>

@@ -4,10 +4,10 @@ const schema = z.object({
   resturantName: z.string().min(1),
   city: z.string().min(1),
   country: z.string().min(1),
-  deliveryPrice: z.coerce.number(),
-  estimatedDeliveryTime: z.coerce.number(),
+  deliveryPrice: z.number(),
+  estimatedDeliveryTime: z.number(),
   cuisines: z.array(z.string()),
-  menuItems: z.array(z.object({ name: z.string(), price: z.coerce.number() }))
+  menuItems: z.
 }).strict()
 export const ResturantInputCreate = schema
 

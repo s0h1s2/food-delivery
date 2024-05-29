@@ -44,7 +44,6 @@ const MenuSection = () => {
                 </FormItem>
 
               )} />
-
               <Button onClick={() => remove(index)} type="button" className="bg-red-500 max-h-fit">Remove</Button>
             </div>
           ))}

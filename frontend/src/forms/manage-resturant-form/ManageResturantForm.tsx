@@ -10,7 +10,7 @@ import MenuSection from "./MenuSection"
 import UploadSection from "./UploadSection"
 import LoadingButton from "@/components/LoadingButton"
 import { Button } from "@/components/ui/button"
-import convertToFormData from "@ajoelp/json-to-formdata"
+import convertToFormData from "json-form-data"
 
 const ManageResturantForm = ({ onSave, isLoading }: FormProps<FormData>) => {
   const form = useForm<ManageResturantFormData>({
@@ -21,7 +21,7 @@ const ManageResturantForm = ({ onSave, isLoading }: FormProps<FormData>) => {
     }
   })
   const onSubmit = (data: ManageResturantFormData) => {
-    const result = convertToFormData(data, { arrayIndexes: true, useDotSeparator: true })
+    const result = convertToFormData(data)
     onSave(result)
   }
   return (

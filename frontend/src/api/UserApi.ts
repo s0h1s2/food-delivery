@@ -2,7 +2,7 @@ import { UserProfileFormData } from "@/forms/user-profile-forms/validation"
 import client from "@/lib/client"
 import { UserInfoResponse } from "@/types/user"
 import { useMutation, useQuery } from "react-query"
-import { toast } from "sonner"
+import { toast } from "react-toastify"
 
 type CreateUserRequest = {
   auth0Id: string
