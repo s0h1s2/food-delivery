@@ -25,6 +25,7 @@ const upload = multer({
     cb(Error("Error: File upload only supports the following filetypes - " + fileTypes))
   }
 })
+router.get("/", jwtCheck, jwtParse, ResturantController.getMyResturant)
 router.post("/", jwtCheck, jwtParse, upload.single("imageFile"), validateSchema(ResturantInputCreate), ResturantController.createResturant)
 
 

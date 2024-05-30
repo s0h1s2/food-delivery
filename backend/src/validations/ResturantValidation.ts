@@ -4,11 +4,12 @@ const schema = z.object({
   resturantName: z.string().min(1),
   city: z.string().min(1),
   country: z.string().min(1),
-  deliveryPrice: z.number(),
-  estimatedDeliveryTime: z.number(),
+  deliveryPrice: z.string(),
+  estimatedDeliveryTime: z.string(),
   cuisines: z.array(z.string()),
-  menuItems: z.
+  menuItems: z.array(z.object({ name: z.string(), price: z.string() }))
 }).strict()
+
 export const ResturantInputCreate = schema
 
 export type CreateResturantBody = z.infer<typeof ResturantInputCreate>

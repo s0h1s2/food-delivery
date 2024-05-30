@@ -1,8 +1,10 @@
 import client from "@/lib/client"
-import { useMutation } from "react-query"
+import { Resturant } from "@/types/resturant"
+import { useMutation, useQuery } from "react-query"
 import { toast } from "react-toastify"
 
 export const useCreateResturant = () => {
+
   const createResturantRequest = async (data: FormData) => {
     try {
       const response = await client.post("/resturants", data, {
@@ -12,6 +14,7 @@ export const useCreateResturant = () => {
       })
       return response
     } catch (e) {
+      console.log(e)
       throw new Error("Unable to create resturant.")
     }
   }
@@ -26,4 +29,12 @@ export const useCreateResturant = () => {
     createResturant,
     isLoading,
   }
+}
+export const useGetMyResturant = () => {
+  const getMyResturantRequest = async (): Promise<Resturant> => {
+    const response = await client.get("/resturants")
+    return response.data
+  }
+  const { data: resturant, isLoading } = useQuery("fetchMyResturant", getMyResturantRequest)
+  return { resturant, isLoading }
 }

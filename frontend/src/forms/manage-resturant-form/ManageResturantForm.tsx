@@ -1,5 +1,6 @@
 import { FormProps } from "@/types/form"
 import { ManageResturantFormData, manageResturantFormSchema } from "./validaiton"
+import { Resturant } from "@/types/resturant"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Form } from "@/components/ui/form"
@@ -11,15 +12,27 @@ import UploadSection from "./UploadSection"
 import LoadingButton from "@/components/LoadingButton"
 import { Button } from "@/components/ui/button"
 import convertToFormData from "json-form-data"
+import { useEffect } from "react"
 
-const ManageResturantForm = ({ onSave, isLoading }: FormProps<FormData>) => {
+const ManageResturantForm = ({ onSave, isLoading, resturant }: FormProps<FormData> & { resturant?: Resturant }) => {
   const form = useForm<ManageResturantFormData>({
     resolver: yupResolver(manageResturantFormSchema),
     defaultValues: {
       cuisines: [],
-      menuItems: [{ name: "", price: 0 }]
+      menuItems: [{ price: 0, name: "" }]
+
     }
   })
+  useEffect(() => {
+    if (!resturant) {
+      return
+    }
+    const updateResturant = {
+      ...resturant
+    }
+    form.reset(updateResturant)
+  }, [resturant, form])
+
   const onSubmit = (data: ManageResturantFormData) => {
     const result = convertToFormData(data)
     onSave(result)
@@ -33,7 +46,7 @@ const ManageResturantForm = ({ onSave, isLoading }: FormProps<FormData>) => {
         <Separator />
         <MenuSection />
         <Separator />
-        <UploadSection />
+        <UploadSection imageUrl={resturant?.imageUrl} />
         {isLoading ? <LoadingButton /> : <Button type="submit">Create</Button>}
       </form>
     </Form>

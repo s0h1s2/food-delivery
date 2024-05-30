@@ -4,10 +4,9 @@ import { FormControl, FormDescription, FormField, FormItem, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { AspectRatio } from "@radix-ui/react-aspect-ratio"
 
-const UploadSection = () => {
+const UploadSection = ({ imageUrl }: { imageUrl?: string }) => {
   const { control, watch } = useFormContext<ManageResturantFormData>()
   const existingImageUrl = watch("imageFile") as File
-
   return (
     <div className="space-y-2">
       <div>
@@ -17,9 +16,9 @@ const UploadSection = () => {
         </FormDescription>
       </div>
       <div className="flex flex-col gap-8 w-[50%]">
-        {existingImageUrl && (
+        {(existingImageUrl || imageUrl) && (
           <AspectRatio ratio={16 / 9}>
-            <img className="rounded-md object-cover h-full w-full" src={URL.createObjectURL(existingImageUrl)} alt="Resturant Image" />
+            <img className="rounded-md object-cover h-full w-full" src={existingImageUrl ? URL.createObjectURL(existingImageUrl) : imageUrl} alt="Resturant Image" />
           </AspectRatio>
         )}
         <FormField name="imageFile" control={control} render={({ field }) => (
