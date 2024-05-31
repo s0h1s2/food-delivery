@@ -38,3 +38,9 @@ export const useGetMyResturant = () => {
   const { data: resturant, isLoading } = useQuery("fetchMyResturant", getMyResturantRequest)
   return { resturant, isLoading }
 }
+export const useUpdateResturant = () => {
+  const updateResturantRequest = async (resturantData: FormData) => {
+    return client.put("/resturants", resturantData)
+  }
+  const { mutateAsync: updateResturant, isLoading, } = useMutation(updateResturantRequest)
+}

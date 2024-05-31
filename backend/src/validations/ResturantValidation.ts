@@ -13,3 +13,4 @@ const schema = z.object({
 export const ResturantInputCreate = schema
 
 export type CreateResturantBody = z.infer<typeof ResturantInputCreate>
+export type UpdateResturantBody = z.infer<typeof ResturantInputCreate>
