@@ -58,7 +58,16 @@ const updateResturant = async (req: Request, res: Response) => {
       const imageUrl = await uploadImage(req.file)
       resturant.imageUrl = imageUrl
     }
-    resturant.set(body)
+    resturant.resturantName = body.resturantName
+    resturant.country = body.country
+    resturant.city = body.city
+    resturant.cuisines = body.cuisines
+    resturant.deliveryPrice = parseFloat(body.deliveryPrice)
+    resturant.estimatedDeliveryTime = parseInt(body.estimatedDeliveryTime)
+    resturant.menuItems = body.menuItems.map((item) => ({
+      name: item.name,
+      price: parseFloat(item.price)
+    }))
     resturant.save()
     return res.status(StatusCodes.OK).json(resturant)
   } catch (err) {

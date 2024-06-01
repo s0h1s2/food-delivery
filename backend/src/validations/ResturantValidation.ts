@@ -8,7 +8,7 @@ const schema = z.object({
   estimatedDeliveryTime: z.string(),
   cuisines: z.array(z.string()),
   menuItems: z.array(z.object({ name: z.string(), price: z.string() }))
-}).strict()
+})
 
 export const ResturantInputCreate = schema
 
