@@ -23,7 +23,7 @@ export const useCreateResturant = () => {
     toast.success("Resturant created!")
   }
   if (error) {
-    toast.error("Unable to update resturant.")
+    toast.error("Unable to create resturant.")
   }
   return {
     createResturant,
@@ -32,15 +32,29 @@ export const useCreateResturant = () => {
 }
 export const useGetMyResturant = () => {
   const getMyResturantRequest = async (): Promise<Resturant> => {
-    const response = await client.get("/resturants")
-    return response.data
+    try {
+      const response = await client.get("/resturants")
+      return response.data
+    } catch (e) {
+      throw new Error("restaurant was not found.")
+    }
   }
   const { data: resturant, isLoading } = useQuery("fetchMyResturant", getMyResturantRequest)
   return { resturant, isLoading }
 }
 export const useUpdateResturant = () => {
   const updateResturantRequest = async (resturantData: FormData) => {
-    return client.put("/resturants", resturantData)
+    return await client.put("/resturants", resturantData)
   }
-  const { mutateAsync: updateResturant, isLoading, } = useMutation(updateResturantRequest)
+  const { mutate: updateResturant, isSuccess, isLoading, error } = useMutation(updateResturantRequest)
+  if (error) {
+    toast.error("Update Resturant Failed.")
+  }
+  if (isSuccess) {
+    toast.success("Resturant Updated")
+  }
+  return {
+    updateResturant,
+    isLoading
+  }
 }

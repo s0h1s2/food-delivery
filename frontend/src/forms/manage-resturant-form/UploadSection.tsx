@@ -24,7 +24,7 @@ const UploadSection = ({ imageUrl }: { imageUrl?: string }) => {
         <FormField name="imageFile" control={control} render={({ field }) => (
           <FormItem>
             <FormControl>
-              <Input type="file" onChange={(e) => field.onChange(e.target.files ? e.target.files[0] : null)} />
+              <Input type="file" onChange={(e) => field.onChange(e.target.files ? e.target.files[0] : imageUrl)} />
             </FormControl>
             <FormMessage />
           </FormItem>

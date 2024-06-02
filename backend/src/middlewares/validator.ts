@@ -20,3 +20,21 @@ export const validateSchema = (schema: z.ZodType) => {
     }
   }
 }
+export const validateParams = (schema: z.ZodType) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    Logger.info("Validate request params")
+    try {
+      schema.parse(req.params)
+      next()
+    } catch (error) {
+      if (error instanceof ZodError) {
+        Logger.error("Validation failed.")
+        Logger.error(error)
+        res.status(StatusCodes.BAD_REQUEST).json({ error: error })
+      } else {
+        Logger.error(error)
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: "Internal server error" })
+      }
+    }
+  }
+}

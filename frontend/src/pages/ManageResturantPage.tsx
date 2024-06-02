@@ -1,20 +1,22 @@
-import { useCreateResturant, useGetMyResturant } from "@/api/ResturantApi"
+import { useCreateResturant, useGetMyResturant, useUpdateResturant } from "@/api/ResturantApi"
 import LoadingSpinner from "@/components/LoadingSpinner"
 import ManageResturantForm from "@/forms/manage-resturant-form/ManageResturantForm"
 
 const ManageResturantPage = () => {
   const { createResturant, isLoading } = useCreateResturant()
   const { isLoading: isResturantLoading, resturant } = useGetMyResturant()
-  if (isResturantLoading) {
-    return (
-      <LoadingSpinner />
-    )
-  }
+  const { updateResturant, isLoading: isUpdateLoading } = useUpdateResturant()
   return (
     <>
-      <ManageResturantForm resturant={resturant} isLoading={isLoading} onSave={(data) => {
-        createResturant(data)
-      }} />
+      {isResturantLoading ? (<LoadingSpinner />) : (
+        <ManageResturantForm resturant={resturant} isLoading={isLoading || isUpdateLoading} onSave={(data) => {
+          if (resturant) {
+            updateResturant(data)
+            return
+          }
+          createResturant(data)
+        }} />
+      )}
     </>
   )
 }

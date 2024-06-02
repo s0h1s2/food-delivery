@@ -4,12 +4,49 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import cloudinary from "cloudinary"
 import Logger from "@/util/Logger";
+const PAGE_SIZE = 10
+
 const uploadImage = async (file: Express.Multer.File) => {
   const image = file
   const base64Image = Buffer.from(image.buffer).toString("base64")
   const dataUri = `data:${image.mimetype};base64,${base64Image}`
   const uploadResponse = await cloudinary.v2.uploader.upload(dataUri)
   return uploadResponse.url
+}
+
+const getResturantsByCity = async (req: Request, res: Response) => {
+  Logger.info("Search resutrants by city")
+  try {
+    const city = req.params.city
+    const searchQuery = req.query.searchQuery as string || ""
+    const sortOption = req.query.sortOption as string || "lastUpdated"
+    const selectedCuisiens = req.query.cuisines as string || ""
+    const page = parseInt(req.query.page as string) || 1
+    let query: any = {}
+    query["city"] = new RegExp(city, "i")
+    const cityCheck = await Resturant.countDocuments(query)
+    if (cityCheck === 0) {
+      return res.status(StatusCodes.NOT_FOUND).json([])
+    }
+    if (selectedCuisiens) {
+      const cuisinesArray = selectedCuisiens.split(",").map((cuisine) => new RegExp(cuisine, "i"))
+      query["cuisines"] = { $all: cuisinesArray }
+    }
+    if (searchQuery) {
+      const searchQueryRegex = new RegExp(searchQuery, "i")
+      query["$or"] = [
+        { resturantName: searchQueryRegex },
+        { cuisines: { $in: [searchQueryRegex] } }
+      ]
+    }
+    const skip = (page - 1) * PAGE_SIZE
+
+    const resturants = await Resturant.find(query).sort({ [sortOption]: 1 }).skip(skip).limit(PAGE_SIZE).lean()
+    const total = await Resturant.countDocuments(query)
+    return res.json({ data: resturants, currentPage: page, totalPages: Math.ceil(total / PAGE_SIZE) })
+  } catch (e) {
+    Logger.error("Error at search resturant by city" + e)
+  }
 }
 const createResturant = async (req: Request, res: Response) => {
   try {
@@ -78,5 +115,6 @@ const updateResturant = async (req: Request, res: Response) => {
 export default {
   createResturant,
   getMyResturant,
-  updateResturant
+  updateResturant,
+  getResturantsByCity
 }

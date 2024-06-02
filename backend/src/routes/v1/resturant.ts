@@ -2,8 +2,8 @@ import express from "express";
 import multer from "multer"
 import path from "path"
 import ResturantController from "@/controllers/ResturantController"
-import { validateSchema } from "@/middlewares/validator";
-import { ResturantInputCreate } from "@/validations/ResturantValidation";
+import { validateParams, validateSchema } from "@/middlewares/validator";
+import { ResturantCitySearch, ResturantInputCreate } from "@/validations/ResturantValidation";
 import { jwtCheck, jwtParse } from "@/middlewares/auth";
 const router = express.Router()
 const storage = multer.memoryStorage()
@@ -26,6 +26,8 @@ const upload = multer({
   }
 })
 router.get("/", jwtCheck, jwtParse, ResturantController.getMyResturant)
+router.get("/search/:city", validateParams(ResturantCitySearch), ResturantController.getResturantsByCity)
+
 router.post("/", jwtCheck, jwtParse, upload.single("imageFile"), validateSchema(ResturantInputCreate), ResturantController.createResturant)
 router.put("/", jwtCheck, jwtParse, upload.single("imageFile"), validateSchema(ResturantInputCreate), ResturantController.updateResturant)
 
