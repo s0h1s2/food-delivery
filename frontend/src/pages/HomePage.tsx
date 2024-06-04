@@ -1,5 +1,6 @@
 import landingImage from "@/assets/landing.png"
 import appDownloadImage from "@/assets/appDownload.png"
+import SearchBar from "@/components/SearchBar"
 const HomePage = () => {
   return (
     <div className="flex flex-col gap-12">
@@ -10,6 +11,8 @@ const HomePage = () => {
         <span className="text-xl">
           Food is just a click away!
         </span>
+        <SearchBar placeholder="Search by City or Town" onSubmit={} />
+
       </div>
       <div className="grid md:grid-cols-2 gap-5">
         <img src={landingImage} alt="Landing" />
