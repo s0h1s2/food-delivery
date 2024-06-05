@@ -7,9 +7,9 @@ import { Input } from "./ui/input"
 import { Button } from "./ui/button"
 
 const formSchema = object({
-  searchQuery: string()
+  searchQuery: string().required()
 })
-type SearchForm = InferType<typeof formSchema>
+export type SearchForm = InferType<typeof formSchema>
 
 interface Props {
   onSubmit: (formData: SearchForm) => void
@@ -41,7 +41,7 @@ const SearchBar = ({ placeholder, onSubmit, onReset }: Props) => {
         <FormField control={form.control} name="searchQuery" render={({ field }) => (
           <FormItem className="flex-1">
             <FormControl>
-              <Input {...field} placeholder={placeholder} className="border-none shadow-none text-xl focus-visiable:ring-0" />
+              <Input {...field} placeholder={placeholder} className="border-none focus:outline-none shadow-none text-xl focus-visiable:ring-0" />
             </FormControl>
           </FormItem>
         )} />

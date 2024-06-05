@@ -9,6 +9,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { addAccessTokenInterceptor } from './lib/client'
 import ManageResturantPage from './pages/ManageResturantPage'
 import ProtectedRoute from './auth/ProtectedRoute'
+import SearchPage from './pages/SearchPage'
 export const AppRoutes = () => {
   const { getAccessTokenSilently } = useAuth0()
   useEffect(() => {
@@ -18,6 +19,7 @@ export const AppRoutes = () => {
     <Routes>
       <Route path={ROUTES.HOME} element={<Layout> <HomePage /> </Layout>} />
       <Route path={ROUTES.AUTH_CALLBACK} element={<AuthCallbackPage />} />
+      <Route path={ROUTES.SEARCH} element={<Layout showHero={false}><SearchPage /></Layout>} />
       <Route element={<ProtectedRoute />}>
         <Route path={ROUTES.USER_PROFILE} element={<Layout showHero={false}><UserProfilePage /></Layout>} />
         <Route path={ROUTES.MANAGE_USER_RESTURANT} element={<Layout><ManageResturantPage /></Layout>} />
