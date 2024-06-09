@@ -5,6 +5,7 @@ import { Form, FormControl, FormField, FormItem } from "./ui/form"
 import { Search } from "lucide-react"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
+import { useEffect } from "react"
 
 const formSchema = object({
   searchQuery: string().required()
@@ -12,19 +13,22 @@ const formSchema = object({
 export type SearchForm = InferType<typeof formSchema>
 
 interface Props {
+  searchQuery: string
   onSubmit: (formData: SearchForm) => void
   placeholder: string
   onReset?: () => void
 }
 
-const SearchBar = ({ placeholder, onSubmit, onReset }: Props) => {
+const SearchBar = ({ searchQuery, placeholder, onSubmit, onReset }: Props) => {
   const form = useForm<SearchForm>({
     resolver: yupResolver(formSchema),
     defaultValues: {
-      searchQuery: ""
+      searchQuery: searchQuery
     }
   })
-
+  useEffect(() => {
+    form.reset({ searchQuery })
+  }, [form, searchQuery])
   const handleReset = () => {
     form.reset({
       searchQuery: ""
@@ -45,9 +49,7 @@ const SearchBar = ({ placeholder, onSubmit, onReset }: Props) => {
             </FormControl>
           </FormItem>
         )} />
-        {form.formState.isDirty && (
-          <Button onClick={handleReset} type="button" variant="outline" className="rounded-full">Clear</Button>
-        )}
+        <Button onClick={handleReset} type="button" variant="outline" className="rounded-full">Reset</Button>
         <Button type="submit" className="rounded-full bg-orange-500">
           Search
         </Button>

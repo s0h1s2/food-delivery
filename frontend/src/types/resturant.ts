@@ -9,7 +9,7 @@ export interface Resturant {
   country: string
   menuItems: MenuItem[]
   deliveryPrice: number
-  estimatedDeliveryPrice: number
+  estimatedDeliveryTime: number
   userId: string
   cuisines: string[]
   imageUrl: string
