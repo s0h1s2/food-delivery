@@ -3,15 +3,14 @@ import LoadingSpinner from "@/components/LoadingSpinner"
 import SearchBar, { SearchForm } from "@/components/SearchBar"
 import SearchResultCard from "@/components/SearchResultCard"
 import SearchResultInfo from "@/components/SearchResultInfo"
+import { SearchState } from "@/types/search"
 import { useState } from "react"
 import { useParams } from "react-router-dom"
-export type SearchState = {
-  searchQuery: string
-}
 const SearchPage = () => {
   const { city } = useParams()
-  const { results, isLoading } = useSearchResturants(city)
   const [searchState, setSearchState] = useState<SearchState>({ searchQuery: "" })
+  const { results, isLoading } = useSearchResturants(searchState, city)
+  console.log(results, city)
   if (isLoading) {
     return <LoadingSpinner />
   }

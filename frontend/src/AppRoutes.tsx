@@ -11,10 +11,12 @@ import ManageResturantPage from './pages/ManageResturantPage'
 import ProtectedRoute from './auth/ProtectedRoute'
 import SearchPage from './pages/SearchPage'
 export const AppRoutes = () => {
-  const { getAccessTokenSilently } = useAuth0()
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0()
   useEffect(() => {
-    addAccessTokenInterceptor(getAccessTokenSilently)
-  }, [getAccessTokenSilently])
+    if (isAuthenticated) {
+      addAccessTokenInterceptor(getAccessTokenSilently)
+    }
+  }, [isAuthenticated, getAccessTokenSilently])
   return (
     <Routes>
       <Route path={ROUTES.HOME} element={<Layout> <HomePage /> </Layout>} />

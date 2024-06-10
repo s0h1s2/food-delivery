@@ -1,17 +1,21 @@
 import client from "@/lib/client"
 import { Resturant } from "@/types/resturant"
+import { SearchState } from "@/types/search"
 import { useMutation, useQuery } from "react-query"
 import { toast } from "react-toastify"
-export const useSearchResturants = (city?: string) => {
+export const useSearchResturants = (search: SearchState, city?: string) => {
+  const params = new URLSearchParams()
+  params.set("searchQuery", search.searchQuery)
   const createSearcRequest = async (): Promise<Resturant[] & { currentPage: number, totalPages: number }> => {
-    const response = await client.get(`/resturants/search/${city}`)
+    const response = await client.get(`/resturants/search/${city}?${params.toString()}`)
     if (response.status != 200) {
       throw new Error("Unable to get resturants")
     }
     return response.data.data
   }
-  const { data: results, isLoading } = useQuery(["searchResturants"], createSearcRequest, {
-    enabled: !!city
+  const { data: results, isLoading } = useQuery(["searchResturants", search, city], createSearcRequest, {
+    enabled: !!city,
+    retry: false
   })
   return {
     results,
