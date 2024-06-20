@@ -1,4 +1,5 @@
 import { useSearchResturants } from "@/api/ResturantApi"
+import CuisineFilter from "@/components/CuisineFilter"
 import LoadingSpinner from "@/components/LoadingSpinner"
 import PaginationSelector from "@/components/PaginationSelector"
 import SearchBar, { SearchForm } from "@/components/SearchBar"
@@ -9,13 +10,21 @@ import { useState } from "react"
 import { useParams } from "react-router-dom"
 const SearchPage = () => {
   const { city } = useParams()
-  const [searchState, setSearchState] = useState<SearchState>({ searchQuery: "", page: 1 })
+  const [searchState, setSearchState] = useState<SearchState>({ searchQuery: "", page: 1, selectedCuisines: [] })
+  const [isExpanded, setIsExpanded] = useState<boolean>(false)
   const { results, isLoading } = useSearchResturants(searchState, city)
   if (isLoading) {
     return <LoadingSpinner />
   }
   if (!results || !city) {
     return <span>No results found</span>
+  }
+  const onSelectedCuisinesChange = (cuisines: string[]) => {
+    setSearchState((prev) => ({
+      ...prev,
+      selectedCuisines: cuisines,
+      page: 1
+    }))
   }
   const setPage = (page: number) => {
     setSearchState((prev) => ({
@@ -41,9 +50,9 @@ const SearchPage = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
       <div id="cusinies-list">
-        Cuisine List
+        <CuisineFilter selectedCuisines={searchState.selectedCuisines} onExpandedClick={() => setIsExpanded((prevIsExpanded) => !prevIsExpanded)} expanded={isExpanded} onChange={onSelectedCuisinesChange} />
       </div>
-      <div id="main-content" className="flex flex-col gap-5">
+      <div id="main-content" className="flex flex-col gap-4">
         <SearchBar searchQuery={searchState.searchQuery} placeholder="Search by cuisine or resturant name" onSubmit={onSearch} onReset={resetSearch} />
         <SearchResultInfo total={results.data.length} city={city} />
         {results.data.map((resturant) => (

@@ -20,7 +20,7 @@ const getResturantsByCity = async (req: Request, res: Response) => {
     const city = req.params.city
     const searchQuery = req.query.searchQuery as string || ""
     const sortOption = req.query.sortOption as string || "lastUpdated"
-    const selectedCuisiens = req.query.cuisines as string || ""
+    const selectedCuisiens = req.query.selectedCuisines as string || ""
     const page = parseInt(req.query.page as string) || 1
     let query: any = {}
     query["city"] = new RegExp(city, "i")

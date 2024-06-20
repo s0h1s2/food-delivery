@@ -12,6 +12,7 @@ export const useSearchResturants = (search: SearchState, city?: string) => {
   const params = new URLSearchParams()
   params.set("searchQuery", search.searchQuery)
   params.set("page", search.page.toString())
+  params.set("selectedCuisines", search.selectedCuisines.join(","))
   const createSearcRequest = async (): Promise<searchResturantResponse> => {
     const response = await client.get(`/resturants/search/${city}?${params.toString()}`)
     if (response.status != 200) {
