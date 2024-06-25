@@ -48,6 +48,22 @@ const getResturantsByCity = async (req: Request, res: Response) => {
     Logger.error("Error at search resturant by city" + e)
   }
 }
+const getResturantDetail = async (req: Request, res: Response) => {
+  Logger.info("Get restaurant detail")
+  const restuarant = await Resturant.findById(req.params.id)
+  try {
+    if (!restuarant) {
+      Logger.info("Restaurant wasn't found.")
+      return res.status(StatusCodes.NOT_FOUND).json({ error: "Restaurant wasn't found." })
+    }
+    return res.json(restuarant)
+  } catch (error) {
+    Logger.error("Error at resturant detail " + error)
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: "Internal server error"
+    })
+  }
+}
 const createResturant = async (req: Request, res: Response) => {
   try {
     const existingResturant = await Resturant.findOne({ user: req.userId })
@@ -116,5 +132,6 @@ export default {
   createResturant,
   getMyResturant,
   updateResturant,
+  getResturantDetail,
   getResturantsByCity
 }
