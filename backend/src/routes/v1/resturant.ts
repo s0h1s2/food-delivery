@@ -26,7 +26,7 @@ const upload = multer({
   }
 })
 router.get("/", jwtCheck, jwtParse, ResturantController.getMyResturant)
-router.get("/:id", jwtCheck, jwtParse, ResturantController.getResturantDetail)
+router.get("/:id", ResturantController.getResturantDetail)
 router.get("/search/:city", validateParams(ResturantCitySearch), ResturantController.getResturantsByCity)
 
 router.post("/", jwtCheck, jwtParse, upload.single("imageFile"), validateSchema(ResturantInputCreate), ResturantController.createResturant)

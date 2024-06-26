@@ -30,7 +30,7 @@ export const useSearchResturants = (search: SearchState, city?: string) => {
     isLoading
   }
 }
-export const useGetResaurantDetail = async (id: string) => {
+export const useGetResaurantDetail = (id?: string) => {
   const getResaurantDetailRequest = async (): Promise<Resturant> => {
     try {
       const response = await client.get(`/resturants/${id}`)
@@ -39,7 +39,10 @@ export const useGetResaurantDetail = async (id: string) => {
       throw new Error("Unable to get restuarant detail.")
     }
   }
-  const { data: resturant, isLoading } = useQuery("fetchResturant", getResaurantDetailRequest)
+
+  const { data: resturant, isLoading } = useQuery("getResturantDetail", getResaurantDetailRequest, {
+    enabled: !!id
+  })
 
   return {
     resturant,
