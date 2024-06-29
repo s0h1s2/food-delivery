@@ -5,13 +5,37 @@ import OrderSummary from "@/components/OrderSummary"
 import RestaurantInfo from "@/components/RestaurantInfo"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { Card } from "@/components/ui/card"
-import { CartItem } from "@/types/cart"
+import { MenuItem as MenuItemType } from "@/types/resturant"
 import { useState } from "react"
 import { useParams } from "react-router-dom"
 const DetailPage = () => {
   const { id } = useParams()
   const { isLoading, resturant } = useGetResaurantDetail(id)
-  const [cartItems, setCartItems] = useState<CartItem[]>([])
+  const [cartItems, setCartItems] = useState<MenuItemType[]>([])
+  const removeFromCart = (menuItem: MenuItemType) => {
+    setCartItems((prevState) => (prevState.filter((cart) => cart._id !== menuItem._id)))
+  }
+  const addToCart = (menuItem: MenuItemType) => {
+    setCartItems((prevState) => {
+      const existingCartItem = prevState.find((item) => item._id == menuItem._id)
+      let updatedCartItems;
+      if (existingCartItem) {
+        updatedCartItems = prevState.map((cart) => cart._id == existingCartItem._id ? {
+          ...cart,
+          quantity: cart.quantity + 1
+        } : cart)
+      } else {
+        updatedCartItems = [...prevState, {
+          price: menuItem.price,
+          _id: menuItem._id,
+          name: menuItem.name,
+          quantity: 1
+        }]
+      }
+
+      return updatedCartItems
+    })
+  }
   if (isLoading) {
     return <LoadingSpinner />
   }
@@ -28,11 +52,11 @@ const DetailPage = () => {
           <RestaurantInfo restaurant={resturant} />
           <span className="text-2xl font-bold tracking-tight">Menu</span>
           {resturant.menuItems.map((menuItem) => (
-            <MenuItem menuItem={menuItem} />
+            <MenuItem menuItem={menuItem} addToCart={addToCart} />
           ))}
         </div>
         <Card>
-          <OrderSummary restaurant={resturant} cartItems={cartItems} />
+          <OrderSummary restaurant={resturant} cartItems={cartItems} removeFromCart={removeFromCart} />
         </Card>
       </div>
     </div>

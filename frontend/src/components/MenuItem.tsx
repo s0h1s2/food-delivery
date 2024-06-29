@@ -3,14 +3,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 
 interface Props {
   menuItem: MenuItem
+  addToCart: (item: MenuItem) => void
 }
-const MenuItem = ({ menuItem }: Props) => {
+const MenuItem = ({ menuItem, addToCart }: Props) => {
   return (
-    <Card className="cursor-pointer">
+    <Card className="cursor-pointer" onClick={() => addToCart(menuItem)}>
       <CardHeader>
         <CardTitle>{menuItem.name}</CardTitle>
       </CardHeader>
-      <CardContent className="font-bold">
+      <CardContent className="flex flex-col font-bold">
         ${menuItem.price}
       </CardContent>
     </Card>

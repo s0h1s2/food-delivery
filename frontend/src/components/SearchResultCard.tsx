@@ -32,14 +32,14 @@ const SearchResultCard = ({ resturant }: Props) => {
               <Clock className="text-green-600" />
               {resturant.estimatedDeliveryTime} Mins
             </div>
-            <div className="flex items-center gap-1">
-              <Banknote />
-              Delivery from ${(resturant.deliveryPrice / 100).toFixed(2)}
-            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Banknote />
+            Delivery from ${(resturant.deliveryPrice / 100).toFixed(2)}
           </div>
         </div>
       </div>
-    </Link>
+    </Link >
   )
 }
 

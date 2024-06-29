@@ -1,6 +1,8 @@
 export interface MenuItem {
+  _id: string
   name: string
   price: number
+  quantity: number
 }
 export interface Resturant {
   _id: string
