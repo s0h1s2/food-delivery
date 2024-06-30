@@ -11,7 +11,11 @@ import { useParams } from "react-router-dom"
 const DetailPage = () => {
   const { id } = useParams()
   const { isLoading, resturant } = useGetResaurantDetail(id)
-  const [cartItems, setCartItems] = useState<MenuItemType[]>([])
+  const [cartItems, setCartItems] = useState<MenuItemType[]>(() => {
+    const storedCartItems = sessionStorage.getItem(`cartItems-${resturant?._id}`)
+    return storedCartItems ? JSON.parse(storedCartItems) : []
+
+  })
   const removeFromCart = (menuItem: MenuItemType) => {
     setCartItems((prevState) => (prevState.filter((cart) => cart._id !== menuItem._id)))
   }
@@ -32,6 +36,7 @@ const DetailPage = () => {
           quantity: 1
         }]
       }
+      sessionStorage.setItem(`cartItems-${resturant?._id}`, JSON.stringify(updatedCartItems))
 
       return updatedCartItems
     })

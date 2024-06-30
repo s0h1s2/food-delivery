@@ -73,7 +73,7 @@ export const UserProfileForm = ({ onSave, isLoading, currentUser }: FormProps<Us
               <FormMessage />
             </FormItem>)} />
         </div>
-        {isLoading ? <LoadingButton /> : <Button type="submit" className="bg-orange-500">Update Profile</Button>}
+        {isLoading ? <LoadingButton /> : <Button type="submit" className="bg-orange-500">Submit</Button>}
       </form>
     </Form>
   );
