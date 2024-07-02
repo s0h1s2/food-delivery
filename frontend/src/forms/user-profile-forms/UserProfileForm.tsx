@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { FormProps } from "@/types/form";
 
 
-export const UserProfileForm = ({ onSave, isLoading, currentUser }: FormProps<UserProfileFormData>) => {
+export const UserProfileForm = ({ onSave, isLoading, currentUser, title, buttonText }: FormProps<UserProfileFormData> & { title?: string, buttonText?: string }) => {
   const form = useForm<UserProfileFormData>({ resolver: yupResolver(schema), defaultValues: currentUser });
   useEffect(() => {
     form.reset(currentUser)
@@ -22,7 +22,7 @@ export const UserProfileForm = ({ onSave, isLoading, currentUser }: FormProps<Us
           <h2 className="text-2xl font-bold">
             <div className="flex flex-row gap-2">
               <UserCog />
-              User Profile Form
+              {title || "User Profile Form"}
             </div>
           </h2>
           <FormDescription>
@@ -73,7 +73,7 @@ export const UserProfileForm = ({ onSave, isLoading, currentUser }: FormProps<Us
               <FormMessage />
             </FormItem>)} />
         </div>
-        {isLoading ? <LoadingButton /> : <Button type="submit" className="bg-orange-500">Submit</Button>}
+        {isLoading ? <LoadingButton /> : <Button type="submit" className="bg-orange-500">{buttonText || "Submit"}</Button>}
       </form>
     </Form>
   );
