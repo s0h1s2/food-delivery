@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { IResturant } from "@/types/Resturant";
 import { IMenuItem } from "@/types/MenuItem";
 const menuItemSchema = new mongoose.Schema<IMenuItem>({
+  _id: { type: mongoose.Schema.Types.ObjectId, required: true, default: () => new mongoose.Types.ObjectId() },
   name: { type: String, required: true },
   price: { type: Number, required: true }
 })
