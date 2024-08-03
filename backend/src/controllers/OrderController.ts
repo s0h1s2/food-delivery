@@ -1,5 +1,4 @@
-import { Resturant } from "@/models/resturant"
-import { IMenuItem } from "@/types/MenuItem"
+import { MenuItem, Resturant } from "@/models/resturant"
 import Logger from "@/util/Logger"
 import { Response, Request } from "express"
 import { StatusCodes } from "http-status-codes"
@@ -32,12 +31,14 @@ const createOrderCheckoutSession = async (req: Request, res: Response) => {
     if (!session.url) {
       return res.status(500).send()
     }
+    return res.json({ url: session.url })
   } catch (error) {
     Logger.error(error)
     return res.status(StatusCodes.SERVICE_UNAVAILABLE).send()
   }
+
 }
-const createLineItems = (checkout: CheckoutSessionRequest, menuItems: IMenuItem[]) => {
+const createLineItems = (checkout: CheckoutSessionRequest, menuItems: MenuItem[]) => {
   const lineItems = checkout.cartItems.map((cart) => {
     const menuItem = menuItems.find((item) => item._id.toString() === cart.menuItemId.toString())
     if (!menuItem) {

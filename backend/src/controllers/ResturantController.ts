@@ -1,4 +1,4 @@
-import { Resturant } from "@/models/resturant";
+import { MenuItem, Resturant } from "@/models/resturant";
 import { CreateResturantBody, UpdateResturantBody } from "@/validations/ResturantValidation";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
@@ -106,7 +106,7 @@ const updateResturant = async (req: Request, res: Response) => {
     if (!resturant) {
       return res.status(StatusCodes.NOT_FOUND).send({ error: "Resturant not found." })
     }
-    const body = req.body as UpdateResturantBody
+    const body = req.body
     if (req.file) {
       const imageUrl = await uploadImage(req.file)
       resturant.imageUrl = imageUrl
@@ -117,11 +117,8 @@ const updateResturant = async (req: Request, res: Response) => {
     resturant.cuisines = body.cuisines
     resturant.deliveryPrice = parseFloat(body.deliveryPrice)
     resturant.estimatedDeliveryTime = parseInt(body.estimatedDeliveryTime)
-    resturant.menuItems = body.menuItems.map((item) => ({
-      name: item.name,
-      price: parseFloat(item.price)
-    }))
-    resturant.save()
+    resturant.menuItems = body.menuItems
+    await resturant.save()
     return res.status(StatusCodes.OK).json(resturant)
   } catch (err) {
     Logger.error("Update resturant error:" + err)
